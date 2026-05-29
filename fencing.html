@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>67Fencing</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+
+:root {
+  --gold: #E8A800;
+  --dark: #1c1c1c;
+  --salmon: #E86060;
+  --rose: #D95570;
+  --text: #333;
+  --muted: #666;
+  --light-bg: #f0f0f0;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 13.5px;
+  color: var(--text);
+  background: #d8dde4;
+  line-height: 1.7;
+}
+
+.page {
+  max-width: 740px;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 0 40px rgba(0,0,0,0.18);
+}
+
+/* NAV */
+nav {
+  background: var(--dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  height: 42px;
+}
+nav a {
+  color: #c0c0c0;
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+nav a:hover { color: #fff; }
+
+/* HERO */
+.hero {
+  position: relative;
+  background: #080808;
+  min-height: 370px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.hero-badge {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  z-index: 3;
+  background: var(--gold);
+  color: #000;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  padding: 5px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hero-img {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 56%;
+  object-fit: cover;
+  z-index: 1;
+}
+.hero-fade {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 56%;
+  background: linear-gradient(to right, #080808 0%, transparent 55%);
+  z-index: 2;
+}
+.hero-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 26px 26px;
+  gap: 20px;
+}
+.hero-num {
+  border: 3px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 96px;
+  line-height: 1;
+  padding: 10px 24px;
+  flex-shrink: 0;
+}
+.hero-title {
+  color: #fff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 62px;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+}
+
+/* SECTIONS */
+.s-white  { background: #fff;            padding: 38px 44px; }
+.s-dark   { background: var(--dark);     padding: 36px 44px; color: #ccc; }
+.s-light  { background: var(--light-bg); padding: 36px 44px; }
+
+/* GOALS BOX */
+.goals-wrap { display: flex; justify-content: center; }
+.goals-box {
+  border: 1px solid #d0d0d0;
+  padding: 26px 36px;
+  max-width: 560px;
+  width: 100%;
+}
+.goals-title {
+  font-family: 'Source Sans 3', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-align: center;
+  color: #222;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 8px 0;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.goals-list { list-style: none; }
+.goals-list li {
+  display: flex; gap: 9px; align-items: flex-start;
+  font-size: 13px; color: #444; margin-bottom: 11px; line-height: 1.55;
+}
+.goals-list li::before {
+  content: '▶';
+  color: #444;
+  font-size: 9px;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+/* SECTION HEADING with left border */
+.h-bordered {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: 0.06em;
+  color: #222;
+  border-left: 4px solid var(--gold);
+  padding-left: 12px;
+  margin-bottom: 20px;
+}
+
+/* BODY TEXT */
+.bt   { font-size: 13.5px; line-height: 1.72; color: #444; margin-bottom: 15px; }
+.bt-d { font-size: 13.5px; line-height: 1.72; color: #bbb; margin-bottom: 15px; }
+.bt-d strong { color: #ddd; }
+
+/* HIGHLIGHT BOX */
+.hlbox {
+  border-left: 3px solid #333;
+  background: #f5f5f5;
+  padding: 13px 18px;
+  margin: 22px 0;
+}
+.hlbox-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #222;
+  margin-bottom: 6px;
+}
+.hl-gold      { background: var(--gold); padding: 0 4px; }
+.hl-red       { background: var(--rose); color: #fff; padding: 0 3px; }
+.hl-under-red { border-bottom: 2px solid var(--rose); padding-bottom: 1px; }
+.hl-under-dark{ border-bottom: 2px solid #999; padding-bottom: 1px; }
+
+/* TWO COLUMN */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+
+/* PULL QUOTE */
+.pq {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.35;
+  color: #222;
+  border-top: 2px solid #ccc;
+  padding-top: 12px;
+}
+.pq-dark {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.35;
+  color: #fff;
+  border-top: 2px solid #555;
+  padding-top: 12px;
+}
+
+/* DARK GOLD HEADING */
+.dgh {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.07em;
+  color: var(--gold);
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 7px;
+  margin-bottom: 18px;
+  display: inline-block;
+}
+.dark-large {
+  font-size: 15px;
+  line-height: 1.72;
+  color: #ddd;
+  font-weight: 600;
+}
+
+/* VIDEO EMBED */
+.vid-wrap {
+  background: #111;
+  border: 1px solid #333;
+  padding: 22px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.vid-sup  { font-size: 10px; color: #666; letter-spacing: 0.1em; }
+.vid-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 30px;
+  color: #fff;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+}
+.vid-logo a { color: inherit; text-decoration: none; }
+.vid-logo a:hover { text-decoration: underline; }
+.vid-logo span { color: var(--gold); }
+.vid-sub  { font-size: 10px; color: #888; letter-spacing: 0.12em; text-transform: uppercase; }
+.vid-divider { width: 100%; height: 1px; background: #333; margin: 4px 0; }
+.vid-hash { font-size: 13px; color: var(--gold); font-weight: 600; }
+
+/* SPLIT SECTION */
+.split      { display: flex; min-height: 380px; }
+.split-dark { background: var(--dark); flex: 0 0 50%; padding: 40px 28px; }
+.split-light{ flex: 1; overflow: hidden; }
+.split-light img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.split-h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  color: #fff;
+  font-size: 19px;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+.split-h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  color: var(--gold);
+  font-size: 46px;
+  line-height: 0.95;
+  margin-bottom: 22px;
+  letter-spacing: -0.01em;
+}
+
+/* QUOTE + IMAGE */
+.qi      { display: flex; min-height: 260px; background: #fff; }
+.qi-text { flex: 1; padding: 40px 28px; display: flex; align-items: center; }
+.qi-img  { flex: 1; overflow: hidden; }
+.qi-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* PROJECT SHOWCASE */
+.showcase { background: var(--dark); padding: 30px 44px; }
+.showcase-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  color: var(--rose);
+  border-bottom: 2px solid var(--rose);
+  padding-bottom: 6px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+.showcase-card { display: flex; }
+.showcase-img  { width: 200px; flex-shrink: 0; position: relative; overflow: hidden; }
+.showcase-img img { width: 100%; height: 230px; object-fit: cover; display: block; }
+.showcase-img-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+  padding: 14px;
+}
+.showcase-img-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  color: #fff;
+  line-height: 1.1;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+}
+.showcase-desc   { background: var(--rose); color: #fff; padding: 18px; flex: 1; }
+.showcase-desc h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.showcase-desc p { font-size: 12.5px; line-height: 1.6; }
+
+/* REFLECT BOX */
+.reflect { background: var(--dark); padding: 30px 44px; }
+.reflect-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+  display: inline-block;
+}
+.reflect-text { font-size: 15px; line-height: 1.7; font-weight: 600; color: #ddd; }
+
+/* GESTAO SECTION */
+.gestao {
+  background: var(--dark);
+  padding: 50px 44px;
+  position: relative;
+  overflow: hidden;
+}
+.gestao::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.04) 39px, rgba(255,255,255,0.04) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.04) 39px, rgba(255,255,255,0.04) 40px);
+  pointer-events: none;
+}
+.gestao-inner { position: relative; }
+.gestao-h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 38px;
+  color: #fff;
+  text-align: center;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+.gestao-h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 38px;
+  color: var(--gold);
+  text-align: center;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  margin-bottom: 28px;
+}
+.card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; margin-top: 28px; }
+.pcard     { background: #252525; overflow: hidden; cursor: pointer; }
+.pcard.active { outline: 2px solid var(--gold); }
+.pcard video { width: 100%; height: 200px; object-fit: cover; display: block; filter: grayscale(40%); transition: filter 0.3s ease; }
+.pcard:hover video { filter: grayscale(15%); }
+.pcard:focus-visible { outline: 2px solid var(--gold); }
+.pcard:active { outline: 2px solid var(--gold); }
+.pcard-thumb { position: relative; }
+.pcard-play {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.32);
+  transition: background 0.2s ease;
+}
+.pcard:hover .pcard-play { background: rgba(0,0,0,0.12); }
+.pcard-play-icon {
+  width: 40px; height: 40px;
+  border: 2px solid rgba(255,255,255,0.7);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.45);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.pcard:hover .pcard-play-icon {
+  transform: scale(1.1);
+  border-color: var(--gold);
+}
+.pcard-play-icon svg { width: 14px; height: 14px; fill: #fff; margin-left: 2px; }
+.pcard-body { padding: 14px; }
+.pcard-name { font-weight: 700; color: var(--gold); font-size: 12px; margin-bottom: 6px; }
+.pcard-text { font-size: 12px; color: #aaa; line-height: 1.5; }
+.card-nav   { display: flex; justify-content: center; gap: 14px; margin-top: 20px; }
+.card-nav button {
+  width: 34px; height: 34px;
+  border: 1px solid #555; background: transparent; color: #aaa;
+  font-size: 18px; cursor: pointer; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.card-nav button:hover { border-color: #aaa; color: #fff; }
+
+/* TECHNIQUE DIALOG */
+.pcard-dialog {
+  border: none;
+  background: transparent;
+  padding: 0;
+  max-width: min(680px, 92vw);
+  width: 100%;
+  border-radius: 0;
+  outline: none;
+  overflow: visible;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  margin: 0;
+}
+.pcard-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(8px);
+  animation: backdropIn 0.22s ease forwards;
+}
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes dialogSlideIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+@keyframes dialogSlideOut {
+  from { opacity: 1; transform: translateY(0)   scale(1); }
+  to   { opacity: 0; transform: translateY(18px) scale(0.97); }
+}
+.pcard-dialog[open] .dialog-inner {
+  animation: dialogSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.dialog-inner {
+  background: #141414;
+  border: 1px solid #2e2e2e;
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.5),
+    0 24px 64px rgba(0,0,0,0.7),
+    0 0 0 1px rgba(232,168,0,0.07);
+  overflow: hidden;
+  position: relative;
+}
+.dialog-video-wrap {
+  position: relative;
+  background: #000;
+  line-height: 0;
+}
+.dialog-video-wrap video {
+  width: 100%;
+  display: block;
+  max-height: 420px;
+  object-fit: contain;
+}
+.dialog-vid-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--gold) 0%, rgba(232,168,0,0.3) 100%);
+}
+.dialog-body {
+  padding: 20px 24px 24px;
+  border-top: 1px solid #282828;
+}
+.dialog-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.dialog-desc {
+  font-size: 13px;
+  color: #999;
+  line-height: 1.7;
+}
+.dialog-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
+  background: rgba(0,0,0,0.65);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #bbb;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 50%;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  line-height: 1;
+}
+.dialog-close:hover {
+  background: rgba(232,168,0,0.18);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.dialog-close:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* TABS */
+.tab-row  { display: flex; }
+.tab-item {
+  flex: 1; background: #2a2a2a; color: #ddd;
+  padding: 10px 8px; font-size: 12.5px; text-align: center;
+  cursor: pointer; border-right: 1px solid #444;
+}
+.tab-item:last-child { border-right: none; }
+.tab-item.active { background: var(--gold); color: #000; font-weight: 700; }
+.tab-body {
+  background: var(--light-bg);
+  padding: 18px 20px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #444;
+  min-height: 170px;
+}
+
+/* AVALIANDO SPLIT */
+.aval      { display: flex; min-height: 320px; }
+.aval-dark { background: var(--dark); flex: 0 0 50%; padding: 38px 28px; }
+.aval-img  { flex: 1; overflow: hidden; }
+.aval-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.aval-h {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.06em;
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+/* INTERACTIVE TABLE */
+.itable      { display: flex; gap: 14px; }
+.itable-nav  { display: flex; flex-direction: column; gap: 4px; width: 175px; flex-shrink: 0; }
+.itable-item {
+  background: #2a2a2a; color: #ddd;
+  padding: 11px 13px; font-size: 12px;
+  line-height: 1.3; font-weight: 600; cursor: pointer;
+}
+.itable-item.active { background: #555; }
+.itable-content {
+  flex: 1; background: var(--light-bg);
+  padding: 18px; font-size: 13px;
+  line-height: 1.7; color: #444; min-height: 200px;
+}
+
+/* ATIVIDADE CTA */
+.ativ         { background: var(--salmon); padding: 40px 44px; display: flex; gap: 20px; align-items: center; }
+.ativ-content { flex: 1; }
+.ativ-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 64px;
+  color: #111;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.ativ-text { font-size: 13px; color: #222; line-height: 1.55; margin-bottom: 20px; max-width: 250px; }
+.ativ-btn {
+  display: inline-block;
+  background: #1a1a1a;
+  color: #fff;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  padding: 11px 30px;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+.ativ-btn:hover { background: #000; }
+.ativ-img { flex: 1; display: flex; justify-content: flex-end; }
+
+/* REFERENCES FOOTER */
+.refs { background: var(--dark); padding: 40px 44px; }
+.refs-h {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.1em;
+  color: #fff;
+  margin-bottom: 22px;
+}
+.ref-item { font-size: 12.5px; color: #aaa; line-height: 1.65; margin-bottom: 14px; }
+.ref-item strong { color: #ccc; }
+.ref-nav { display: flex; justify-content: center; gap: 14px; margin-top: 24px; }
+.ref-nav button {
+  width: 34px; height: 34px;
+  border: 1px solid #555; background: transparent; color: #aaa;
+  font-size: 18px; cursor: pointer; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.ref-nav button:hover { border-color: #aaa; color: #fff; }
+
+/* ── MOBILE ── */
+@media (max-width: 600px) {
+
+  /* NAV */
+  nav {
+    height: auto;
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    justify-content: center;
+    gap: 2px 18px;
+  }
+  nav a {
+    font-size: 11px;
+    padding: 4px 0;
+  }
+
+  /* HERO */
+  .hero { min-height: 240px; }
+  .hero-img {
+    width: 100%;
+    left: 0;
+    opacity: 0.35;
+  }
+  .hero-fade {
+    width: 100%;
+    left: 0;
+    background: linear-gradient(to top, #080808 45%, transparent 85%);
+  }
+  .hero-badge { font-size: 10px; padding: 4px 10px; top: 14px; left: 14px; }
+  .hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 18px 22px;
+    gap: 8px;
+  }
+  .hero-num {
+    font-size: 58px;
+    padding: 6px 16px;
+    border-width: 2px;
+  }
+  .hero-title { font-size: 36px; }
+
+  /* SECTION PADDING */
+  .s-white { padding: 28px 20px; }
+  .s-dark  { padding: 28px 20px; }
+  .s-light { padding: 28px 20px; }
+
+  /* GOALS */
+  .goals-box { padding: 18px 16px; }
+
+  /* TWO-COL → SINGLE */
+  .two-col { grid-template-columns: 1fr; gap: 22px; }
+
+  /* SPLIT (characteristics) → STACK */
+  .split { flex-direction: column; min-height: auto; }
+  .split-dark { flex: none; padding: 28px 20px; }
+  .split-light { min-height: 230px; }
+  .split-h1 { font-size: 34px; }
+
+  /* QUOTE + IMAGE → STACK */
+  .qi { flex-direction: column; min-height: auto; }
+  .qi-text { padding: 26px 20px; }
+  .qi-img { min-height: 210px; flex: none; }
+
+  /* SHOWCASE */
+  .showcase { padding: 26px 20px; }
+  .showcase-card { flex-direction: column; }
+  .showcase-img { width: 100%; }
+  .showcase-img img { height: 210px; width: 100%; }
+
+  /* REFLECT */
+  .reflect { padding: 26px 20px; }
+
+  /* LEGENDS GRID → SINGLE COL */
+  .gestao { padding: 36px 20px; }
+  .gestao-h1, .gestao-h2 { font-size: 30px; }
+  .card-grid { grid-template-columns: 1fr; gap: 6px; }
+  .pcard video { height: 160px; }
+  .pcard-dialog { max-width: 96vw; }
+  .dialog-video-wrap video { max-height: 280px; }
+  .dialog-body { padding: 16px 18px 20px; }
+
+  /* AVALIANDO SPLIT → STACK */
+  .aval { flex-direction: column; min-height: auto; }
+  .aval-dark { flex: none; padding: 28px 20px; }
+  .aval-img { min-height: 220px; flex: none; }
+
+  /* INTERACTIVE TABLE → STACK (wrapping nav) */
+  .itable { flex-direction: column; gap: 0; }
+  .itable-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 0;
+  }
+  .itable-item {
+    flex: 1 1 auto;
+    padding: 10px 14px;
+    font-size: 11.5px;
+    border-right: 1px solid #3a3a3a;
+    border-bottom: 2px solid #444;
+    white-space: normal;
+    line-height: 1.2;
+    text-align: center;
+  }
+  .itable-item.active { border-bottom-color: var(--gold); }
+  .itable-content { padding: 16px; min-height: auto; }
+
+  /* TABS */
+  .tab-item { font-size: 11.5px; padding: 10px 6px; }
+  .tab-body { padding: 14px 16px; }
+
+  /* CTA SECTION → STACK */
+  .ativ { flex-direction: column; padding: 30px 20px; gap: 22px; align-items: flex-start; }
+  .ativ-title { font-size: 48px; }
+  .ativ-text { max-width: 100%; }
+  .ativ-img { width: 100%; justify-content: flex-start; }
+  .ativ-img img { width: 100%; max-width: 100%; height: 190px; }
+
+  /* REFERENCES */
+  .refs { padding: 30px 20px; }
+
+  /* VID WRAP */
+  .vid-wrap { padding: 18px; }
+
+  /* HIGHLIGHT BOX */
+  .hlbox { padding: 12px 14px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- NAV -->
+  <nav>
+    <a href="#">Nuestras Disciplinas</a>
+    <a href="#">Entrenamiento y Técnica</a>
+    <a href="#">Únete al Club</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">⚔ CLUB OLÍMPICO DE ESGRIMA</div>
+    <img class="hero-img" src="https://upload.wikimedia.org/wikipedia/commons/6/6c/0408_USA_Olympic_fencing.jpg" alt="Fencing Action">
+    <div class="hero-fade"></div>
+    <div class="hero-content">
+      <div class="hero-num">67</div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div class="hero-title">CAMPEONES<br>DE ESGRIMA</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;letter-spacing:0.08em;color:var(--gold);line-height:1.1;">By Andres Guerra</div>
+        <div style="font-family:'Source Sans 3',sans-serif;font-size:12px;color:#999;letter-spacing:0.06em;">I.E Juan XXIII - Proyecto Personal 3er año</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOALS BOX -->
+  <div class="s-white" style="padding: 44px 44px;">
+    <div class="goals-wrap">
+      <div class="goals-box">
+        <div class="goals-title">NUESTROS OBJETIVOS</div>
+        <div style="text-align:center;margin:-6px 0 16px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.1em;color:var(--gold);">Andres Guerra</div>
+        <ul class="goals-list">
+          <li>Descubrir los principios fundamentales que definen el arte y la ciencia de la esgrima competitiva.</li>
+          <li>Comprender cómo la esgrima evolucionó desde el combate antiguo hasta convertirse en una prestigiosa disciplina olímpica con siglos de historia.</li>
+          <li>Presentar las características que definen a un esgrimista de élite y competidor campeón en la pista.</li>
+          <li>Explorar los métodos de entrenamiento y las estrategias mentales que llevan a los atletas a la excelencia en cada asalto.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- START YOUR JOURNEY -->
+  <div class="s-white" style="padding-top:16px;">
+    <h2 class="h-bordered">COMIENZA TU CAMINO</h2>
+    <p class="bt">Mucho se ha dicho, escrito e investigado sobre el deporte de la esgrima, y con razón. Es una disciplina que evoluciona constantemente a medida que la técnica y la ciencia del deporte avanzan a un ritmo acelerado. La capacidad de leer al adversario, controlar la distancia y actuar con un timing decisivo se ha convertido, más que nunca, en una cualidad esencial para cualquiera que pise la pista y quiera superar a su contrincante.</p>
+    <p class="bt">Más allá del intercambio físico de tocados, la esgrima es un arte que permite a los atletas superar los desafíos competitivos de una manera más creativa, eficaz y resiliente. Por esta razón, comprender los conceptos y las características de la esgrima de élite es fundamental para entender las razones del éxito o el fracaso en cualquier asalto competitivo. El deporte exige el compromiso total de la mente y el cuerpo a partes iguales.</p>
+    <p class="bt">Aprender de cada combate y aspirar a la excelencia son aspectos del enfoque del esgrimista que tienden a resonar en quienes alguna vez han pisado la pista y han sentido la tensión eléctrica de un asalto a máxima velocidad.</p>
+    <div class="hlbox">
+      <div class="hlbox-label">¿SABES CÓMO <span class="hl-gold">DECIDIR?</span></div>
+      <p style="font-size:13px;color:#555;line-height:1.55;">En la fracción de segundo de un asalto de esgrima, cada decisión importa. ¿Cómo puedes estar seguro de que tus instintos están suficientemente entrenados? ¿Y si la duda te cuesta el tocado y el combate?</p>
+    </div>
+    <p class="bt">Únete a nosotros en este viaje a través de la esgrima competitiva. Comenzaremos debatiendo los conceptos fundamentales que definen nuestro deporte: cómo la esgrima evolucionó a través de las civilizaciones y se convirtió en disciplina olímpica; presentando las características que definen a un competidor de élite; y explorando los métodos de entrenamiento que contribuyen a identificar y desarrollar tu arma más poderosa y tu estilo más efectivo.</p>
+    <p class="bt">Te deseamos un recorrido enriquecedor y transformador en la pista.</p>
+  </div>
+
+  <!-- TWO-COL COMPARISON -->
+  <div class="s-white" style="padding-top:8px; border-top:1px solid #eee;">
+    <div style="border-top:2px solid #ccc; padding-top:14px; margin-bottom:18px;">
+      <div class="hlbox-label">¿SABES CÓMO <span class="hl-gold">ELEGIR?</span></div>
+      <p style="font-size:13px;color:#555;">¿La diferencia entre un esgrimista recreativo y un competidor de élite? Vamos a descubrirlo.</p>
+    </div>
+    <div class="two-col">
+      <div>
+        <p class="bt">En el mundo de la esgrima, siempre hemos tenido tres armas distintas y dos tipos distintos de atletas: el practicante técnico y el competidor completo. Ambos son responsables de su rendimiento en la pista, pero la diferencia entre los dos es la adaptabilidad. El <strong>competidor completo</strong> es el que innova, estudia a su adversario, asume el reto de desarrollar un estilo personalizado y, muchas veces, rompe las expectativas tácticas de su contrincante.</p>
+        <div class="pq" style="margin-top:18px;">[...] el practicante técnico es el que ejecuta las acciones; a pesar de la disciplina que demuestra, su enfoque se mantiene como una repetición de patrones aprendidos, ofreciendo poca variación táctica.</div>
+      </div>
+      <div>
+        <div class="pq">El competidor completo es el que innova, tiende trampas tácticas, asume el desafío y gestiona la dimensión psicológica de cada asalto</div>
+        <p class="bt" style="margin-top:18px;">El practicante técnico es el que entrena los movimientos: a pesar de la disciplina que demuestra, su enfoque es simplemente una repetición de acciones mecanizadas, sin creatividad dentro del asalto.</p>
+        <p class="bt">Actualmente, el concepto de practicante y competidor está convergiendo, donde el atleta entrenado se convierte en aquel que, incluso sin inventar nuevas técnicas, asume riesgos tácticos calculados para ganar el tocado decisivo.</p>
+      </div>
+    </div>
+    <p class="bt" style="margin-top:18px;">A partir de este punto, el deporte ha llegado a clasificar a los esgrimistas de élite como aquellos que poseen un perfil conductual específico, capaces de crear y responder a situaciones tácticas complejas, aunque estas se construyan a partir de patrones clásicos, ejecutados con tal precisión y timing que alcanzan la excelencia. El esgrimista del siglo XX es hoy, en el siglo XXI, el competidor atlético e intelectual completo.</p>
+  </div>
+
+  <!-- PHILOSOPHY DARK -->
+  <div class="s-dark">
+    <div class="dgh">FILOSOFÍA DEL COMBATE</div>
+    <p class="dark-large">La esgrima es mucho más que un simple intercambio de toques, es lo más parecido a una partida de ajedrez jugada a la velocidad de la luz, donde el cuerpo se convierte en el tablero y el arma en una extensión de la voluntad. Para entender de qué va realmente, hay que obsesionarse con esta frase de "tocar sin ser tocado", que es la esencia pura de este deporte. No se trata simplemente de lanzarse al ataque con agresividad, sino de dominar el espacio, el tiempo y, sobre todo, la psicología del oponente. Es un arte de engaños y sutilezas donde cada paso atrás es una invitación y cada amago es una pregunta que el otro debe responder en milisegundos. Cuando logras esa armonía perfecta, esa en la que tu defensa se vuelve un ataque y tu ataque es tan preciso que no deja huecos, la esgrima deja de ser un combate físico para convertirse en una coreografía de pura inteligencia estratégica. Al final, la elegancia de este deporte no reside en la fuerza, sino en la capacidad de entrar en la distancia del otro, resolver el enigma de su estrategia, de su algoritmo y salir completamente ileso, demostrando que en el combate, la mente siempre debe ir un paso por delante de la espada.</p>
+  </div>
+
+  <!-- LIGHT TEXT -->
+  <div class="s-white">
+    <p class="bt">Otra forma de definir al esgrimista de élite es verlo como alguien que "consigue encontrar claridad en entornos de velocidad y caos, identificando aperturas donde la mayoría de los atletas no pueden encontrarlas" (Szabó, 1977, p. 17). Por esta razón, el esgrimista campeón necesita ser una persona curiosa, perceptiva y, sobre todo, excelente en la lectura del tempo, asumiendo riesgos tácticos calculados que pueden crear oportunidades de puntuación decisivas desde posiciones aparentemente neutras en la pista.</p>
+  </div>
+
+  <!-- HISTORY DARK -->
+  <div class="s-dark">
+    <div class="dgh">HISTORIA DE LA ESGRIMA COMO DEPORTE OLÍMPICO</div>
+    <p class="bt-d">Reflexionemos ahora brevemente sobre el contexto histórico de la esgrima competitiva. ¡Es importante conocer el pasado para avanzar hacia el futuro! Mira el documental:</p>
+    <div class="vid-wrap">
+      <div class="vid-sup">67 · 2024 · SERIE DOCUMENTAL DE ESGRIMA</div>
+      <div class="vid-logo"><a href="https://www.youtube.com/watch?v=2EYaHlaheF0" target="_blank"><span>67</span>Esgrima</a></div>
+      <div class="vid-sub">Técnica · Tradición · Excelencia Olímpica</div>
+      <div class="vid-divider"></div>
+      <div class="vid-hash">#tocarSinSerTocado</div>
+    </div>
+  </div>
+
+  <!-- CHARACTERISTICS SPLIT -->
+  <div class="split">
+    <div class="split-dark">
+      <div class="split-h2">CARACTERÍSTICAS Y PERFIL</div>
+      <div class="split-h1">EL ESGRIMISTA<br>DE ÉLITE</div>
+      <p class="bt-d">Desde el principio hemos dicho que la excelencia en la esgrima es una conducta. De hecho, la disciplina mental y física es el factor más importante, pero, como ya hemos dicho, no es el único. Sin embargo, por muy talentoso que sea naturalmente un atleta, si no ha desarrollado el perfil conductual disciplinado de un competidor, será muy difícil lograr un éxito consistente en la pista.</p>
+      <p class="bt-d">¿Notaste la frase del párrafo anterior? <strong>"perfil conductual disciplinado"</strong>. ¡Sí! Puedes desarrollar deliberadamente tus características competitivas.</p>
+      <p class="bt-d">La mayoría de las personas que se acercan a la esgrima comparten una reacción interesante: quedan inmediatamente fascinadas. <strong>El crecimiento global del deporte lo confirma.</strong> Todos quieren entender "cómo funciona de verdad". De no ser así, la esgrima no tendría la apasionada comunidad que tiene; y ahora, los medios y las plataformas que permiten compartir asaltos competitivos cuentan con millones de espectadores repartidos por los cuatro rincones del mundo.</p>
+      <p class="bt-d">Lo que despierta la curiosidad de la mayoría de los recién llegados es saber cómo algunos esgrimistas logran una consistencia extraordinaria mientras otros se estancan a pesar del talento. El éxito al que me refiero no se mide solo en medallas, sino en la calidad de la presencia en la pista, <span class="hl-under-red">es decir, cada esgrimista tiene una visión diferente de lo que la maestría significa para él.</span></p>
+    </div>
+    <div class="split-light">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Esgrima_brasileira_termina_em_7%C2%BA_lugar_na_Rio_2016_1037211-12.08.2016_ffz-3143.jpg" alt="Elite Fencer in Action">
+    </div>
+  </div>
+
+  <!-- QUOTE + IMAGE -->
+  <div class="qi">
+    <div class="qi-text">
+      <div class="pq">El éxito que busca el esgrimista de élite es el dominio de la hoja. Haber realizado su máximo potencial en cada asalto, frente a cada adversario</div>
+    </div>
+    <div class="qi-img">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/25e_%C3%A9dition_du_challenge_d%E2%80%99escrime_X-SYSTRA_sur_le_campus_de_l%27%C3%89cole_polytechnique_%2832623436801%29.jpg" alt="Fencing Competition">
+    </div>
+  </div>
+
+  <!-- LIGHT TEXT -->
+  <div class="s-white">
+    <p class="bt">Lo que mueve al esgrimista de élite no es simplemente ganar, sino la búsqueda implacable de la precisión, y normalmente, los resultados competitivos se convierten en la confirmación externa de que el trabajo ha dado sus frutos. Al fin y al cabo, si los tocados son limpios y las tácticas funcionan, se está alcanzando la maestría, ¿verdad?</p>
+    <p class="bt">El éxito que busca el verdadero esgrimista es la realización personal del dominio técnico y táctico completo. Haber realizado su potencial con cada fondo, cada parada, cada decisión en una fracción de segundo sobre la pista. Las medallas y los rankings son solo una consecuencia de la excelencia aplicada de forma consistente.</p>
+  </div>
+
+  <!-- COMPETITION SPOTLIGHT -->
+  <div class="showcase">
+    <div class="showcase-label">COMPETICIÓN DESTACADA</div>
+    <div class="showcase-card">
+      <div class="showcase-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Esgrima_brasileira_termina_em_7%C2%BA_lugar_na_Rio_2016_1037212-12.08.2016_ffz-3145.jpg" alt="Campeonato Mundial">
+        <div class="showcase-img-overlay">
+          <div class="showcase-img-title">Budapest<br>Esgrima<br>Mundial</div>
+        </div>
+      </div>
+      <div class="showcase-desc">
+        <h3>CAMPEONATO MUNDIAL DE ESGRIMA DE BUDAPEST</h3>
+        <p>Entre los eventos más celebrados del calendario internacional de esgrima, el Campeonato Mundial de Budapest reunió a más de 800 atletas de 120 naciones compitiendo en las seis modalidades individuales y por equipos. La final masculina de espada se decidió con un único tocado en prórroga de muerte súbita, un testimonio de los márgenes extremadamente finos que separan a los campeones de los aspirantes en el máximo nivel del deporte. El evento reforzó el legado de Budapest como una de las grandes capitales de la esgrima mundial.</p>
+      </div>
+    </div>
+    <p class="bt-d" style="margin-top:18px;"><span class="hl-under-red">Al reflexionar sobre la competición,</span> es importante mirar más allá del marcador. Desde una perspectiva técnica y filosófica, las finales de Budapest mostraron el arte de atletas que han pasado años entrenando sus instintos para funcionar a la velocidad de la intención, donde la acción precede al pensamiento consciente.</p>
+  </div>
+
+  <!-- LIGHT TWO-COL -->
+  <div class="s-white">
+    <div class="two-col">
+      <div>
+        <p class="bt">Comprender el mecanismo psicológico que impulsa a los esgrimistas de élite fue lo que despertó el interés de los investigadores en ciencias del deporte, quienes se propusieron investigar qué tenían en común los competidores campeones. "El primer estudio sistemático sobre psicología del rendimiento en esgrima se publicó en 1974, en el Journal of Applied Sport Science, con el título 'Motivación competitiva y logro atlético', del Dr. Lena Bergström" (Westbrook &amp; Ratti, 1985, p. 20).</p>
+        <p class="bt">En dicho estudio, Bergström separó a los atletas entre quienes entrenan para participar y quienes entrenan para competir bajo máxima presión. <span class="hl-red">Con esta clasificación,</span> resultó evidente que la mayoría de los esgrimistas de élite pertenecen al grupo que busca deliberadamente situaciones de alta presión como herramienta de entrenamiento, en lugar de evitarlas.</p>
+      </div>
+      <div>
+        <div class="pq">El primer estudio sistemático sobre psicología del rendimiento en esgrima se publicó en 1974, reveló que los esgrimistas campeones buscan la presión en lugar de huir de ella</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFLECT -->
+  <div class="reflect">
+    <div class="reflect-label">¡REFLEXIONA!</div>
+    <p class="reflect-text">¿Sacrificaría un atleta que ama verdaderamente el deporte horas de ejercicios de desplazamiento en solitario, trabajo de hoja y estudio táctico, sabiendo que la excelencia en la esgrima nunca se alcanza del todo, sino que se persigue sin fin?</p>
+  </div>
+
+  <!-- LIGHT TEXT -->
+  <div class="s-white">
+    <p class="bt">Al identificar una fuerte relación entre los rasgos conductuales de un atleta y su éxito competitivo a largo plazo, los científicos del deporte desarrollaron programas de entrenamiento específicos para fomentar las características psicológicas del rendimiento de élite.</p>
+    <p class="bt">Diversos programas de acondicionamiento mental, diseñados específicamente para esgrimistas competitivos, se desarrollaron a partir de la investigación de Bergström y colaboradores, abarcando el entrenamiento de la concentración, la simulación de presión y la revisión analítica post-asalto.</p>
+    <p class="bt">Pasamos la mayoría de nuestras horas de entrenamiento en los fundamentos, desplazamiento, control de hoja, precisión de punta, es decir, invertimos nuestro activo más preciado: el tiempo. "Menos pero mejor" es la filosofía más adecuada para el desarrollo en esgrima, ya que aborda los beneficios de la práctica deliberada frente al volumen, donde la calidad de cada repetición importa infinitamente más que la cantidad. El entrenamiento enfocado e intencional es un principio que todo esgrimista serio debe adoptar desde las primeras etapas de su desarrollo.</p>
+  </div>
+
+  <!-- LEGENDS SECTION -->
+  <div class="gestao">
+    <div class="gestao-inner">
+      <div class="gestao-h1">TÉCNICAS ESENCIALES</div>
+      <div class="gestao-h2">DE COMBATE</div>
+      <p class="bt-d" style="max-width:620px;margin:0 auto 0;">El dominio técnico es la columna vertebral de cualquier acción ofensiva o defensiva en la pista. Las técnicas de combate fundamentales, el desenganche, la finta y sus variantes compuestas constituyen el vocabulario esencial que todo esgrimista debe incorporar a su repertorio para poder leer y resolver los enigmas tácticos que plantea el adversario. A continuación se presentan algunas de las acciones técnicas más comunes y decisivas en la esgrima competitiva:</p>
+      <div class="card-grid">
+        <div class="pcard active" data-dialog="dialog-tecnica-1" tabindex="0" role="button" aria-label="Ver técnica: Desenganche a la cuarta">
+          <div class="pcard-thumb">
+            <video src="images&amp;videos/Desenganchealacuarta.mp4" muted preload="metadata" playsinline></video>
+            <div class="pcard-play">
+              <div class="pcard-play-icon"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></div>
+            </div>
+          </div>
+          <div class="pcard-body">
+            <div class="pcard-name">Desenganche a la cuarta (En tercera persona)</div>
+            <p class="pcard-text">Acción ofensiva en la que el esgrimista evade la parada de cuarta mediante un desenganche circular, completando el toque en la línea alta externa.</p>
+          </div>
+        </div>
+        <div class="pcard" data-dialog="dialog-tecnica-2" tabindex="0" role="button" aria-label="Ver técnica: Desenganche a la cuarta en primera persona">
+          <div class="pcard-thumb">
+            <video src="images&amp;videos/Desenganchealacuarta2.mp4" muted preload="metadata" playsinline></video>
+            <div class="pcard-play">
+              <div class="pcard-play-icon"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></div>
+            </div>
+          </div>
+          <div class="pcard-body">
+            <div class="pcard-name">Desenganche a la cuarta (En primera persona)</div>
+            <p class="pcard-text">Vista desde el atacante, el esgrimista anticipa la parada de cuarta y ejecuta el desenganche en el momento preciso para completar el toque limpiamente.</p>
+          </div>
+        </div>
+        <div class="pcard" data-dialog="dialog-tecnica-3" tabindex="0" role="button" aria-label="Ver técnica: Finta">
+          <div class="pcard-thumb">
+            <video src="images&amp;videos/Finta.mp4" muted preload="metadata" playsinline></video>
+            <div class="pcard-play">
+              <div class="pcard-play-icon"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></div>
+            </div>
+          </div>
+          <div class="pcard-body">
+            <div class="pcard-name">Finta (En tercera persona)</div>
+            <p class="pcard-text">Ataque compuesto que engaña al adversario simulando una acción para provocar su parada y, una vez iniciada, desviarse hacia la línea descubierta para completar el toque real.</p>
+          </div>
+        </div>
+        <div class="pcard" data-dialog="dialog-tecnica-4" tabindex="0" role="button" aria-label="Ver técnica: Finta en primera persona">
+          <div class="pcard-thumb">
+            <video src="images&amp;videos/Finta2.mp4" muted preload="metadata" playsinline></video>
+            <div class="pcard-play">
+              <div class="pcard-play-icon"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></div>
+            </div>
+          </div>
+          <div class="pcard-body">
+            <div class="pcard-name">Finta (En primera persona)</div>
+            <p class="pcard-text">Perspectiva del ejecutante: el esgrimista ofrece un blanco falso, espera la reacción defensiva del adversario y finaliza la acción con un toque preciso en la línea abierta.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-nav">
+        <button aria-label="Anterior">&#8249;</button>
+        <button aria-label="Siguiente">&#8250;</button>
+      </div>
+
+      <!-- TECHNIQUE DIALOGS -->
+      <dialog class="pcard-dialog" id="dialog-tecnica-1" aria-modal="true">
+        <div class="dialog-inner">
+          <button class="dialog-close" aria-label="Cerrar">✕</button>
+          <div class="dialog-video-wrap">
+            <video src="images&amp;videos/Desenganchealacuarta.mp4" controls muted loop playsinline></video>
+            <div class="dialog-vid-bar"></div>
+          </div>
+          <div class="dialog-body">
+            <div class="dialog-title">Desenganche a la cuarta (En tercera persona)</div>
+            <p class="dialog-desc">Acción ofensiva en la que el esgrimista evade la parada de cuarta mediante un desenganche circular, completando el toque en la línea alta externa del adversario. Esta técnica compuesta exige precisión en el timing para iniciar el desenganche justo cuando el rival compromete su parada.</p>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog class="pcard-dialog" id="dialog-tecnica-2" aria-modal="true">
+        <div class="dialog-inner">
+          <button class="dialog-close" aria-label="Cerrar">✕</button>
+          <div class="dialog-video-wrap">
+            <video src="images&amp;videos/Desenganchealacuarta2.mp4" controls muted loop playsinline></video>
+            <div class="dialog-vid-bar"></div>
+          </div>
+          <div class="dialog-body">
+            <div class="dialog-title">Desenganche a la cuarta (En primera persona)</div>
+            <p class="dialog-desc">Vista desde el atacante, el esgrimista anticipa la parada de cuarta del adversario y ejecuta el desenganche en el momento preciso. Esta perspectiva revela la sensación de distancia y el control de hoja necesarios para completar el toque limpiamente en la línea alta externa.</p>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog class="pcard-dialog" id="dialog-tecnica-3" aria-modal="true">
+        <div class="dialog-inner">
+          <button class="dialog-close" aria-label="Cerrar">✕</button>
+          <div class="dialog-video-wrap">
+            <video src="images&amp;videos/Finta.mp4" controls muted loop playsinline></video>
+            <div class="dialog-vid-bar"></div>
+          </div>
+          <div class="dialog-body">
+            <div class="dialog-title">Finta (En tercera persona)</div>
+            <p class="dialog-desc">Ataque compuesto que engaña al adversario simulando una acción para provocar su parada y, una vez iniciada, desviar la hoja hacia la línea descubierta y completar el toque real. La finta es la esencia del engaño táctico en esgrima: crear una amenaza falsa para generar la apertura verdadera.</p>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog class="pcard-dialog" id="dialog-tecnica-4" aria-modal="true">
+        <div class="dialog-inner">
+          <button class="dialog-close" aria-label="Cerrar">✕</button>
+          <div class="dialog-video-wrap">
+            <video src="images&amp;videos/Finta2.mp4" controls muted loop playsinline></video>
+            <div class="dialog-vid-bar"></div>
+          </div>
+          <div class="dialog-body">
+            <div class="dialog-title">Finta (En primera persona)</div>
+            <p class="dialog-desc">Perspectiva del ejecutante: el esgrimista ofrece deliberadamente un blanco falso, lee la reacción defensiva del adversario y finaliza la acción con un toque preciso en la línea abierta. Esta vista revela la coordinación entre la mano y el desplazamiento que hace posible la finta eficaz.</p>
+          </div>
+        </div>
+      </dialog>
+    </div>
+  </div>
+
+  <!-- LIGHT TWO-COL POST LEGENDS -->
+  <div class="s-white">
+    <div class="two-col">
+      <div>
+        <div class="pq">Todos estos campeones comparten el hecho de que transformaron el deporte, y el hecho de que fueron visionarios que vieron posibilidad donde otros solo veían convención</div>
+      </div>
+      <div>
+        <p class="bt">Todos estos campeones tienen en común el hecho de que cambiaron el panorama competitivo y el hecho de que fueron visionarios. Pero un esgrimista de élite no necesita revolucionar el deporte con una nueva técnica. La innovación también puede ocurrir en enfoques existentes de preparación y competición que tienen la posibilidad de refinarse y perfeccionarse. La legendaria consistencia de Vezzali, por ejemplo, no se construyó sobre nuevas invenciones, sino sobre un refinamiento obsesivo de los fundamentos clásicos del florete.</p>
+      </div>
+    </div>
+    <p class="bt" style="margin-top:18px;"><strong>La oportunidad</strong> en esgrima es el momento preciso para comprometerse con la acción antes de que la ventana se cierre. ¡Sí, tiene todo el sentido! Al percibir el patrón de un adversario, el esgrimista experimentado reconoce la oportunidad de explotarlo de forma decisiva, de ser el primero en actuar sobre lo que el otro aún no ha ocultado. ¿Cómo desarrollas entonces la conciencia para reconocer ese momento y el valor para aprovecharlo sin dudarlo?</p>
+  </div>
+
+  <!-- TABS SECTION -->
+  <div class="s-white" style="padding-top:16px;">
+    <p class="bt">Este proceso de <span class="hl-under-dark">leer y aprovechar las oportunidades</span> en la pista es difícil, no es instinto y, con seguridad, se desarrollará como resultado de la práctica deliberada y el estudio analítico de situaciones competitivas que obligan al atleta a encontrar nuevas formas de resolver el enigma de cada adversario. Las tres armas ofrecen tres filosofías distintas:</p>
+    <div style="margin:20px 0;">
+      <div class="tab-row" id="tabRow">
+        <div class="tab-item active" onclick="showTab(0)">Florete</div>
+        <div class="tab-item" onclick="showTab(1)">Espada</div>
+        <div class="tab-item" onclick="showTab(2)">Sable</div>
+      </div>
+      <div class="tab-body" id="tabBody">
+        <img id="tabImage" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Foil-2004-A.jpg" alt="Florete — arma de esgrima" style="display:block;margin:0 auto 16px;max-width:460px;width:100%;object-fit:cover;">
+        <p id="tabBodyText">El florete es el más ligero de las tres armas de esgrima, tradicionalmente utilizado como arma de entrenamiento para desarrollar la precisión y la técnica. En florete, la zona de toque válida es únicamente el torso, la cabeza, los brazos y las piernas están fuera de zona. Los tocados se puntúan solo con la punta de la hoja, y la convención de prioridad rige quién recibe el punto cuando ambos esgrimistas son tocados simultáneamente. El florete enseña la paciencia, la estructura y la importancia de ganarse cada ataque mediante una preparación y un trabajo de hoja adecuados. Es el arma que exige elegancia técnica por encima de todo.</p>
+      </div>
+    </div>
+    <p class="bt">Ahora que comprendes la filosofía distinta de cada arma, ponlo en práctica, comienza a entrenar con el arma que más resuene con tus instintos naturales, y luego amplía tu comprensión estudiando las demás.</p>
+  </div>
+
+  <!-- EVALUATING SPLIT -->
+  <div class="aval">
+    <div class="aval-dark">
+      <div class="aval-h">EVALUANDO TU PROGRESO</div>
+      <p class="bt-d">Evaluar tu desarrollo busca <span class="hl-under-red">verificar la efectividad</span> de tu enfoque de entrenamiento. Cuando identificas debilidades en tu juego, es un proceso laborioso que debe llevarse a cabo con honestidad y consistencia.</p>
+      <p class="bt-d">La función de este <span class="hl-under-red">proceso de evaluación</span> es reducir el riesgo de estancamiento y consiste en analizar varias dimensiones del rendimiento.</p>
+      <p class="bt-d">Hablemos de los siguientes factores: <strong>Desplazamiento, Trabajo de Hoja, Inteligencia Táctica, Juego Mental y Condición Física.</strong></p>
+    </div>
+    <div class="aval-img">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Esgrima_brasileira_termina_em_7%C2%BA_lugar_na_Rio_2016_1037213-12.08.2016_ffz-3206.jpg" alt="Fencing Training">
+    </div>
+  </div>
+
+  <!-- INTERACTIVE TABLE -->
+  <div class="s-white">
+    <div class="itable">
+      <div class="itable-nav" id="itableNav">
+        <div class="itable-item active" onclick="showTable(0)">Desplazamiento</div>
+        <div class="itable-item" onclick="showTable(1)">Trabajo de Hoja</div>
+        <div class="itable-item" onclick="showTable(2)">Inteligencia Táctica</div>
+        <div class="itable-item" onclick="showTable(3)">Juego Mental</div>
+        <div class="itable-item" onclick="showTable(4)">Condición Física</div>
+      </div>
+      <div class="itable-content" id="itableContent">
+        <p>El desplazamiento es la base de toda la esgrima. Sin un movimiento preciso y explosivo, ninguna acción técnica puede aplicarse eficazmente en competición. El avance y la retirada controlan la distancia; el fondo es el movimiento de ataque principal, que extiende el cuerpo hacia el adversario en un único movimiento explosivo. La balestra añade un salto antes del fondo para cerrar la distancia rápidamente y romper el ritmo del adversario.</p>
+        <p style="margin-top:12px;">Desarrollar un desplazamiento ligero y reactivo, capaz de pasar fluidamente de una defensa profunda a un ataque explosivo en una fracción de segundo es lo que separa a un buen esgrimista de uno excelente.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHT TWO-COL -->
+  <div class="s-white" style="padding-top:16px; border-top:1px solid #eee;">
+    <p class="bt">Tras analizar las dimensiones que hemos destacado, ahora comprendes qué áreas requieren tu atención prioritaria y, más que eso, tienes una hoja de ruta clara para convertirte en el competidor completo que quieres ser. Ahora solo se trata de entrenar con intención, ¡casi! Hay un factor más que debe entenderse:</p>
+    <div class="two-col" style="margin-top:18px;">
+      <div>
+        <div class="pq">algunos aspectos el esgrimista podrá controlarlos mediante el entrenamiento, otros permanecerán impredecibles el día de la competición.</div>
+      </div>
+      <div>
+        <p class="bt">Sin embargo, los factores presentados y analizados anteriormente son los considerados fundamentales, ya que la debilidad en cualquiera de ellos comprometerá el rendimiento en los momentos decisivos de cualquier asalto competitivo.</p>
+        <p class="bt">Las demás variables, el estilo del adversario, las decisiones del árbitro, las condiciones del entorno, pueden gestionarse a medida que surjan. Su influencia, ya sea negativa, dependerá de cuán profundamente se hayan desarrollado las características competitivas profesionales del esgrimista.</p>
+        <p class="bt"><span class="hl-under-red">No existe una fórmula garantizada para la victoria</span> y mucho menos un camino seguro en cada asalto. Por esta razón, es esencial que el atleta mantenga plena conciencia tanto de sus fortalezas como de sus vulnerabilidades. La disciplina para entrenar lo que es difícil, no solo lo que es cómodo, es sin duda el compromiso más importante que un esgrimista puede asumir.</p>
+        <p class="bt">La esgrima es una elección para quienes abrazan la complejidad, y si te comprometes plenamente con esta disciplina, sabe que las dificultades iniciales en la pista tienden a dar paso, con el tiempo, a una maestría profunda y únicamente tuya.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLOSING SECTION -->
+  <div class="s-white" style="padding-top:16px; border-top:1px solid #eee;">
+    <h2 class="h-bordered">TU PRÓXIMO ASALTO</h2>
+    <p class="bt">¿Cuáles fueron tus principales descubrimientos a lo largo de este recorrido? En nuestro camino hacia el desarrollo de tu <strong>potencial en la esgrima</strong>, hemos recorrido el terreno esencial de lo que realmente significa ser un esgrimista competitivo.</p>
+    <p class="bt">Con este objetivo en mente, aprendimos que la esgrima puede entenderse como una disciplina completa, <span class="hl-under-red">una forma de pensar, moverse y competir que impregna todo lo que haces.</span></p>
+    <p class="bt">Que los <strong>Esgrimistas de Élite</strong> presentan características conductuales que contribuyen directamente a su logro competitivo. Esto confirma que cualquier atleta comprometido puede desarrollar estas características en sí mismo, identificando los rasgos que necesita fortalecer y trabajando deliberadamente en su desarrollo tanto dentro como fuera de la pista.</p>
+    <p class="bt">Discutimos que, independientemente de cuán ideales sean las condiciones para un ataque, cada acción debe prepararse a fondo antes de comprometerse. Necesitamos analizar la <strong>distancia</strong>, verificar el <strong>timing</strong>, entender el <strong>tempo</strong>, reconocer las <strong>aperturas tácticas</strong> y evaluar la <strong>prioridad</strong> antes de actuar. No pienses que el aprendizaje termina aquí, aún hay más técnicas que dominar y más asaltos que disputar.</p>
+    <p class="bt">Hasta la próxima. En guardia.</p>
+    <p style="margin-top:24px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:0.09em;color:var(--gold);">— Andres Guerra</p>
+  </div>
+
+  <!-- ATIVIDADE / GET STARTED -->
+  <div class="ativ">
+    <div class="ativ-content">
+      <div class="ativ-title">COMIENZA<br>EL ENTRENAMIENTO</div>
+      <p class="ativ-text">Veamos cuánto has aprendido a lo largo de esta sesión con un ejercicio táctico práctico en la pista.</p>
+      <a href="#" class="ativ-btn">COMENZAR AHORA</a>
+    </div>
+    <div class="ativ-img">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/25e_%C3%A9dition_du_challenge_d%E2%80%99escrime_X-SYSTRA_sur_le_campus_de_l%27%C3%89cole_polytechnique_%2832623437961%29.jpg" alt="Training Illustration" style="width:300px;height:230px;object-fit:cover;">
+    </div>
+  </div>
+
+  <!-- REFERENCES FOOTER -->
+  <div class="refs">
+    <div class="refs-h">REFERENCIAS</div>
+    <div style="margin-bottom:20px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:0.1em;color:var(--gold);border-bottom:1px solid #333;padding-bottom:14px;">Andres Guerra</div>
+    <div class="ref-item"><strong>SZABÓ, László. Esgrima y el maestro.</strong> Budapest: Corvina Press, 1977.</div>
+    <div class="ref-item"><strong>WESTBROOK, A.; RATTI, O. Secretos del samurái:</strong> las artes marciales del Japón feudal - el rol de la espada. Tokio: Charles E. Tuttle, 1985.</div>
+    <div class="ref-item"><strong>EVANGELISTA, Nick. El arte y la ciencia de la esgrima. <em>Masters Press Athletic Series.</em></strong> Indianápolis: Masters Press, 1996.</div>
+    <div class="ref-nav">
+      <button>&#8249;</button>
+      <button>&#8250;</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const tabImages = [
+  { src: "https://upload.wikimedia.org/wikipedia/commons/f/f8/Foil-2004-A.jpg",                               alt: "Florete — arma de esgrima" },
+  { src: "https://upload.wikimedia.org/wikipedia/commons/1/10/Final_Trophee_Monal_2012_n08.jpg",              alt: "Espada — competición de esgrima" },
+  { src: "https://upload.wikimedia.org/wikipedia/commons/2/25/Kim_v_Zagunis_2014_Orleans_Sabre_Grand_Prix_t213626.jpg", alt: "Sable — competición de esgrima" }
+];
+
+const tabData = [
+  "El florete es el más ligero de las tres armas de esgrima, utilizado tradicionalmente como arma de entrenamiento para desarrollar la precisión y la técnica. En florete, la zona de toque válida es únicamente el torso, la cabeza, los brazos y las piernas están fuera de zona. Los tocados se puntúan solo con la punta de la hoja, y la convención de prioridad rige quién recibe el punto cuando ambos esgrimistas son tocados simultáneamente. El florete enseña la paciencia, la estructura y la importancia de ganarse cada ataque mediante una preparación y un control de hoja adecuados. Es el arma de la elegancia y el refinamiento técnico.",
+  "La espada es la más pesada de las tres armas y se considera la forma más pura de la esgrima, toda la superficie corporal es zona de toque válida, y no existe la regla de prioridad. Cuando ambos esgrimistas son tocados simultáneamente, ambos puntúan. Esto exige una conciencia defensiva total en todo momento. La esgrima de espada es un juego de paciencia, estrategia y precisión absoluta: debes crear la oportunidad para un tocado limpio mientras te mantienes completamente protegido. Un pequeño descuido en la concentración puede costar el asalto completo, convirtiéndola en la prueba definitiva de la inteligencia disciplinada.",
+  "El sable es el más rápido y explosivo de las tres armas de esgrima. La zona de toque válida incluye todo el cuerpo superior, el torso, los brazos y la cabeza. Los tocados pueden realizarse tanto con la punta como con el filo de la hoja, lo que hace al sable excepcionalmente dinámico. La regla de prioridad se aplica, premiando al esgrimista que establece el ataque primero. Los asaltos de sable se caracterizan por intercambios explosivos, un desplazamiento ultrarrápido y un juego táctico altamente agresivo. La velocidad, la agresividad y los reflejos explosivos definen la identidad del sablista en la pista."
+];
+
+function showTab(i) {
+  document.querySelectorAll('.tab-item').forEach((t,j) => t.classList.toggle('active', i===j));
+  const img = document.getElementById('tabImage');
+  img.src = tabImages[i].src;
+  img.alt = tabImages[i].alt;
+  document.getElementById('tabBodyText').textContent = tabData[i];
+}
+
+const tableData = [
+  "<p>El desplazamiento es la base de toda la esgrima. Sin un movimiento preciso y explosivo, ninguna técnica puede aplicarse eficazmente. El avance y la retirada controlan la distancia; el fondo es el paso de ataque principal, que extiende el cuerpo hacia el adversario en un único movimiento explosivo. La balestra añade un salto antes del fondo para cerrar la distancia rápidamente.</p><p style='margin-top:12px;'>Desarrollar un desplazamiento ligero y reactivo, capaz de pasar de la defensa al ataque en una fracción de segundo es lo que separa a un buen esgrimista de uno excelente.</p>",
+  "<p>El trabajo de hoja engloba todas las acciones realizadas con el arma: ataques, paradas, contraataques y preparaciones de hoja. Un ataque directo va hacia el adversario sin contacto previo de hoja; un ataque indirecto implica un desenganche o un coupé para evitar la hoja del adversario.</p><p style='margin-top:12px;'>El dominio del trabajo de hoja significa entender no solo cómo ejecutar cada acción, sino cuándo, el timing y la distancia transforman la técnica mecánica en acciones de puntuación decisivas.</p>",
+  "<p>Las tácticas en esgrima son el puente entre la habilidad física y la estrategia mental. Leer los patrones del adversario, establecer una falsa sensación de seguridad antes de golpear, y variar el tempo para romper su ritmo son todas herramientas tácticas.</p><p style='margin-top:12px;'>El esgrimista experimentado tiende trampas, dejando deliberadamente aperturas para provocar una respuesta predecible, y luego explotándola con una contra-acción preparada.</p>",
+  "<p>La esgrima es a menudo llamada 'ajedrez físico' precisamente porque la dimensión mental es tan importante como la física. La capacidad de mantenerse sereno bajo presión, procesar información rápidamente y tomar compromisos decisivos en milisegundos define a un campeón.</p><p style='margin-top:12px;'>El control emocional, mantener la calma y el análisis tras perder un tocado crítico es una habilidad que tarda años de experiencia competitiva deliberada en desarrollarse plenamente.</p>",
+  "<p>La esgrima de élite exige una condición física excepcional. Las exigencias explosivas del fondo, la retirada y el ataque requieren piernas poderosas y un core fuerte. La resistencia cardiovascular sostiene el rendimiento a lo largo de jornadas de torneo largas con múltiples asaltos.</p><p style='margin-top:12px;'>La flexibilidad de caderas y tobillos, combinada con el desarrollo de fibras musculares rápidas y un tiempo de reacción superior, permite al esgrimista bien acondicionado mantener la plena precisión técnica incluso en los últimos segundos de un asalto disputado al límite.</p>"
+];
+
+function showTable(i) {
+  document.querySelectorAll('.itable-item').forEach((t,j) => t.classList.toggle('active', i===j));
+  document.getElementById('itableContent').innerHTML = tableData[i];
+}
+
+/* ── VIDEO THUMBNAILS ── */
+document.querySelectorAll('.pcard video').forEach(vid => {
+  vid.addEventListener('loadedmetadata', () => { vid.currentTime = 0.001; });
+});
+
+/* ── TECHNIQUE CARDS ── */
+function closeDialogAnimated(dialog) {
+  const inner = dialog.querySelector('.dialog-inner');
+  inner.style.animation = 'dialogSlideOut 0.2s cubic-bezier(0.55, 0, 0.55, 0.2) forwards';
+  setTimeout(() => {
+    const vid = dialog.querySelector('video');
+    if (vid) vid.pause();
+    dialog.close();
+    inner.style.animation = '';
+  }, 195);
+}
+
+document.querySelectorAll('.pcard').forEach(card => {
+  const openDialog = () => {
+    document.querySelectorAll('.pcard').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+    const dialogId = card.dataset.dialog;
+    if (!dialogId) return;
+    const dialog = document.getElementById(dialogId);
+    if (!dialog) return;
+    dialog.showModal();
+    const vid = dialog.querySelector('video');
+    if (vid) { vid.currentTime = 0; vid.play(); }
+  };
+  card.addEventListener('click', openDialog);
+  card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDialog(); } });
+});
+
+document.querySelectorAll('.pcard-dialog').forEach(dialog => {
+  dialog.querySelector('.dialog-close').addEventListener('click', e => {
+    e.stopPropagation();
+    closeDialogAnimated(dialog);
+  });
+  dialog.addEventListener('click', e => {
+    if (e.target === dialog) closeDialogAnimated(dialog);
+  });
+  dialog.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { e.preventDefault(); closeDialogAnimated(dialog); }
+  });
+});
+</script>
+</body>
+</html>
